@@ -1,19 +1,19 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm'
 import { IndividualityController } from './individuality/individuality.controller';
 import { IndividualityService } from './individuality/individuality.service';
 import { IndividualityModule } from './individuality/individuality.module';
 import { LoggerMiddleware, logger } from './common/middleware/logger.middleware';
-
-// @Module({
-//   imports: [],
-//   controllers: [AppController, IndividualityController],
-//   providers: [AppService, IndividualityService], // provider registration
-// })
+import { Connection } from 'typeorm';
 
 @Module({
-  imports: [IndividualityModule]
-  // controllers: [IndividualityController],
-  // providers: [IndividualityService], // provider registration
+  imports: [],
+  controllers: [
+    // AppController, 
+    IndividualityController],
+  providers: [
+    // AppService, 
+    IndividualityService], // provider registration
 })
 
 /**
@@ -22,6 +22,7 @@ import { LoggerMiddleware, logger } from './common/middleware/logger.middleware'
    * Middleware를 포함하는 Module은 NestModule을 구현해야함
    */
 export class AppModule implements NestModule {
+  constructor(private connection: Connection) {}
   /**
    * AppModule 수준에서 LoggerMiddleware 설정
    * /individuality route handler에 대해 loggerMiddleware 설정
